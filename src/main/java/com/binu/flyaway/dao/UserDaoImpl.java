@@ -74,7 +74,34 @@ public class UserDaoImpl implements UserDao {
 		System.out.println("In UserDaoImpl  isUserValid= " + isUserValid);
 		return isUserValid;
 	}
-	
+
+
+	@Override
+	public User findUserByUsername(String username) throws SQLException {
+        User user = null;
+        String sql = "SELECT * FROM user WHERE username = ?";
+         
+        connect();
+         
+        PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+        statement.setString(1, username);
+ 
+        
+        ResultSet resultSet = statement.executeQuery();
+         
+        while (resultSet.next()) {
+            String usrname = resultSet.getString("username");
+            String pwd = resultSet.getString("password");
+               
+            user = new User(usrname, pwd);
+        }
+         
+        resultSet.close();
+        statement.close();
+         
+        return user;
+	}
+
 	@Override
 	public User findUser(String username, String password) throws SQLException {
         User user = null;
@@ -100,6 +127,24 @@ public class UserDaoImpl implements UserDao {
         statement.close();
          
         return user;
+	}
+
+	@Override
+	public boolean updateUserPassword(User user) throws SQLException {
+		 
+        String sql = "UPDATE user SET password = ? WHERE username = ?";
+         
+        connect();
+         
+        PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+        statement.setString(1, user.getPassword());
+        statement.setString(2, user.getUsername());
+         
+        boolean rowUpdated = statement.executeUpdate() > 0;
+        statement.close();
+        disconnect();
+        return rowUpdated;     		
+		
 	}
 
 }

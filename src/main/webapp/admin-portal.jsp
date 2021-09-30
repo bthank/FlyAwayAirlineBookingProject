@@ -12,12 +12,14 @@
 		<h2>Admin Portal:</h2>
 		<br />
 		<hr>
+		<a href="/FlyAwayAirlineBookingProject/showUpdateUserPasswordForm"><h4>Update Password</h4></a> <br/>
+		
 		<a href="/FlyAwayAirlineBookingProject/new"><h4>Add Flight</h4></a> 
 		<a href="/FlyAwayAirlineBookingProject/edit"><h4>Update Flight</h4></a> 
 		<a href="/FlyAwayAirlineBookingProject/delete"><h4>Delete Flight</h4></a> 
 		<a href="/FlyAwayAirlineBookingProject/listAllFlightsAdmin"><h4>List All Flights</h4></a> 			
-		<a href="/FlyAwayAirlineBookingProject/listAllAirlinesAdmin"><h4>Master List of Airlines</h4></a> 				
-		<a href="/FlyAwayAirlineBookingProject/listAllAirportsAdmin"><h4>Master List of Airports</h4></a> 				
+		<a href="/FlyAwayAirlineBookingProject/displayMasterListofAirlinesAdmin"><h4>Master List of Airlines</h4></a> 				
+		<a href="/FlyAwayAirlineBookingProject/displayMasterListofAirportsAdmin"><h4>Master List of Airports</h4></a> 				
 
 	</center>
 </body>

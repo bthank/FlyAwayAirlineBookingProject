@@ -43,9 +43,9 @@
                     <td><c:out value="${flight.fare}" /></td>
                     <td><c:out value="${flight.numberAvailableSeats}" /></td>
                     <td>
-                        <a href="/edit?id=<c:out value='${flight.id}' />">Edit</a>
+                        <a href="/FlyAwayAirlineBookingProject/edit?id=<c:out value='${flight.id}' />">Edit</a>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="/delete?id=<c:out value='${flight.id}' />">Delete</a>                     
+                        <a href="/FlyAwayAirlineBookingProject/delete?id=<c:out value='${flight.id}' />">Delete</a>                     
                     </td>
                 </tr>
             </c:forEach>

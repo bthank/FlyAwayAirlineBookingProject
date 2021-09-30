@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -60,7 +62,7 @@ public class ControllerServlet extends HttpServlet {
         try {
             switch (action) {
             case "/home":
-            	showHomePage(request,response);
+            	showCustomerHomePage(request,response);
             	break;
             case "/customerSearchFlights":
                	showCustomerSearchFlightsForm(request,response);
@@ -76,6 +78,12 @@ public class ControllerServlet extends HttpServlet {
             	break;
             case "/showAdminHome":
             	showAdminHomePage(request,response);
+            	break;  
+            case "/showUpdateUserPasswordForm":
+            	showUpdateUserPasswordForm(request,response);
+            	break;              	
+            case "/updateUserPassword":
+            	updateUserPassword(request,response);
             	break;            	
             	
             case "/listAllFlightsCustomer":
@@ -99,8 +107,15 @@ public class ControllerServlet extends HttpServlet {
             case "/update":
                 updateFlight(request, response);
                 break;
+                
+            case "/displayMasterListofAirlinesAdmin":
+            	displayMasterListofAirlinesAdmin(request,response);
+            	break; 
+            case "/displayMasterListofAirportsAdmin":
+            	displayMasterListofAirportsAdmin(request,response);
+            	break; 
             default:
-            	showHomePage(request,response);
+            	showCustomerHomePage(request,response);
             	break;
             }
         } catch (SQLException ex) {
@@ -111,8 +126,11 @@ public class ControllerServlet extends HttpServlet {
 		}
     }
  
-    private void showHomePage(HttpServletRequest request, HttpServletResponse response)
+    private void showCustomerHomePage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ParseException {
+    	
+    	request.setAttribute("admin_username","");
+    	
           RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
           dispatcher.forward(request, response);
     }
@@ -177,6 +195,8 @@ public class ControllerServlet extends HttpServlet {
 
 			 response.sendRedirect("admin-portal.jsp");
 		 } else {
+			 HttpSession session = request.getSession();
+			 session.setAttribute("adminUserName", "");
 			 // send the user to the admin-login-error.jsp page
 			 response.sendRedirect("admin-login-error.jsp");
 			 
@@ -188,6 +208,16 @@ public class ControllerServlet extends HttpServlet {
             throws ServletException, IOException, SQLException, ParseException {
           RequestDispatcher dispatcher = request.getRequestDispatcher("admin-portal.jsp");
           dispatcher.forward(request, response);
+    }
+    
+    private void showUpdateUserPasswordForm(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException, ParseException {
+    		
+    	String username = (String)request.getAttribute("admin_username");
+    	User user = userDao.findUserByUsername(username);	
+    	
+    	RequestDispatcher dispatcher = request.getRequestDispatcher("update-user-password-form.jsp");
+    	dispatcher.forward(request, response);
     }
     
     private void listFlightsCustomer(HttpServletRequest request, HttpServletResponse response)
@@ -205,6 +235,37 @@ public class ControllerServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("list-all-flights.jsp");
         dispatcher.forward(request, response);
     }
+    
+ 
+    
+    private void displayMasterListofAirlinesAdmin(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException, ParseException {
+        List<Flight> listFlight = flightDao.listAllFlights();
+        
+        Set<String> setAirlines = new HashSet<>();
+        for (Flight flight: listFlight) {
+        	setAirlines.add(flight.getAirline());
+        }
+        
+        request.setAttribute("setAirlines", setAirlines);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("master-list-airlines.jsp");
+        dispatcher.forward(request, response);
+    }
+    
+    private void displayMasterListofAirportsAdmin(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException, ParseException {
+        List<Flight> listFlight = flightDao.listAllFlights();
+        
+        Set<String> setAirports = new HashSet<>();
+        for (Flight flight: listFlight) {
+        	setAirports.add(flight.getSourceAirport());
+        	setAirports.add(flight.getDestinationAirport());
+        }
+        
+        request.setAttribute("setAirports", setAirports);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("master-list-airports.jsp");
+        dispatcher.forward(request, response);
+    }    
     
     private void showNewForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -244,7 +305,7 @@ public class ControllerServlet extends HttpServlet {
     }
  
     private void updateFlight(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException, ParseException {
+            throws SQLException, IOException, ParseException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
         
     	String sDate1=request.getParameter("departureDate");
@@ -259,16 +320,44 @@ public class ControllerServlet extends HttpServlet {
  
         Flight flight = new Flight(id, source, destination, departureDate, fare, availableSeats,airline);
         flightDao.updateFlight(flight);
-        response.sendRedirect("list");
+        
+        listFlightsAdmin(request,response);
+
     }
+    
+    
+    private void updateUserPassword(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ParseException, ServletException {
+    	
+		 HttpSession session = request.getSession();
+		 String username = (String)session.getAttribute("adminUserName");
+    	
+        if (username == null) {
+        	request.setAttribute("error", "ERROR - Cannot update password.  Username is null.");
+			 // send the user to the admin-error.jsp page
+			 response.sendRedirect("admin-error.jsp");
+        }
+        
+    	String pwd=request.getParameter("adminPwd");
+  
+        User user = userDao.findUserByUsername(username);
+        user.setPassword(pwd);
+        
+        userDao.updateUserPassword(user);
+        
+
+        showAdminLoginForm(request,response);
+    }    
+    
  
     private void deleteFlight(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException {
+            throws SQLException, IOException, ServletException, ParseException {
         int id = Integer.parseInt(request.getParameter("id"));
  
         Flight flight = new Flight(id);
         flightDao.deleteFlight(flight);
-        response.sendRedirect("list");
+
+        listFlightsAdmin(request,response);
  
     }
 }

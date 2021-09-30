@@ -9,5 +9,7 @@ public interface UserDao {
 	void connect() throws SQLException;
 	void disconnect() throws SQLException;
 	boolean validateAdminUser(User user) throws SQLException;
+	User findUserByUsername(String username) throws SQLException;
 	User findUser(String username, String password) throws SQLException;
+	boolean updateUserPassword(User user) throws SQLException;
 }

@@ -5,6 +5,15 @@
 <html>
 <head>
     <title>Fly Away Airline Flight Booking Application</title>
+    
+    <style>
+    	body {
+    		background-color: #eb8c34;
+    	}
+    	.align-right {
+    		text-align: right;
+    	}
+    </style>
 </head>
 <body>
 	<center>
@@ -33,10 +42,10 @@
                     <td><c:out value="${flight.airline}" /></td>
                     <td><c:out value="${flight.sourceAirport}" /></td>
                     <td><c:out value="${flight.destinationAirport}" /></td>
-                    <td><c:out value="${flight.fare}" /></td>
-                    <td><c:out value="${flight.numberAvailableSeats}" /></td>
+                    <td class="align-right"><c:out value="$${flight.fare}" /></td>
+                    <td class="align-right"><c:out value="${flight.numberAvailableSeats}" /></td>
                     <td>
-                        <a href="/book?id=<c:out value='${flight.id}' />">Book Flight</a>            
+                        <a href="/FlyAwayAirlineBookingProject/book?id=<c:out value='${flight.id}' />">Book</a>            
                     </td>
                 </tr>
             </c:forEach>
