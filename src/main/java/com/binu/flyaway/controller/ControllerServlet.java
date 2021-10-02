@@ -47,6 +47,9 @@ public class ControllerServlet extends HttpServlet {
 	private PaymentDetailsDao paymentDetailsDao;
 	private BookingDao bookingDao;
 
+	/**
+	 * Method to initalize database connection fields and instantiate Dao objects used by the controller
+	 */
 	public void init() {
 		String jdbcURL = getServletContext().getInitParameter("jdbcURL");
 		String jdbcUsername = getServletContext().getInitParameter("jdbcUsername");
@@ -63,11 +66,17 @@ public class ControllerServlet extends HttpServlet {
 		bookingDao = new BookingDaoImpl(jdbcURL, jdbcUsername, jdbcPassword);
 	}
 
+	/**
+	 * Method to handle Post requests; routes to doGet to do all processing
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);
 	}
-
+	
+	/**
+	 * Method to handle Get requests and handles routinfg of requests to appropriate handler methods
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getServletPath();
@@ -149,7 +158,10 @@ public class ControllerServlet extends HttpServlet {
 		}
  
 	}
-
+	
+	/**
+	 * Request handler method to show the landing page for the web app
+	 */
 	private void showCustomerHomePage(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, SQLException, ParseException {
 
@@ -159,12 +171,18 @@ public class ControllerServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
+	/**
+	 * Request handler method to display the customer search flights page
+	 */
 	private void showCustomerSearchFlightsForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, SQLException, ParseException {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("customer-search-flights.jsp");
 		dispatcher.forward(request, response);
 	}
-
+	
+	/**
+	 * Request handler method to find flights based off of the user specified search criteria
+	 */
 	private void findFlights(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ParseException, ServletException {
 
@@ -200,7 +218,10 @@ public class ControllerServlet extends HttpServlet {
 
 
 	}
-
+	
+	/**
+	 * Request handler method to display the booking process' customer information entry page
+	 */
 	private void displayBookingCustomerForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, SQLException, ParseException {
 		int flightId = Integer.parseInt(request.getParameter("id"));
@@ -209,7 +230,10 @@ public class ControllerServlet extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("booking-customer-form.jsp");
 		dispatcher.forward(request, response);
 	}
-
+	
+	/**
+	 * Request handler method to handle adding a customer to the customer table in the database
+	 */
 	private void addCustomer(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ParseException, ServletException {
 
@@ -233,7 +257,10 @@ public class ControllerServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 
 	}
-
+	
+	/**
+	 * Request handler method to handle adding a payment detail record to the payment_details table in the database
+	 */
 	private void addPaymentDetails(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ParseException, ServletException {
 
@@ -265,7 +292,10 @@ public class ControllerServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 
 	}
-
+	
+	/**
+	 * Request handler method to handle adding a booking record to the booking table in the database
+	 */
 	private void bookFlight(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ParseException, ServletException {
 
@@ -284,13 +314,19 @@ public class ControllerServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 
 	}
-
+	
+	/**
+	 * Request handler method to handle displaying the admin login form
+	 */
 	private void showAdminLoginForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, SQLException, ParseException {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("admin-login.jsp");
 		dispatcher.forward(request, response);
 	}
-
+	
+	/**
+	 * Request handler method to handle validating the admin login form
+	 */
 	private void validateAdminLogin(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, SQLException, ParseException {
 
@@ -320,7 +356,10 @@ public class ControllerServlet extends HttpServlet {
 
 		}
 	}
-
+	
+	/**
+	 * Request handler method to handle displaying the admin home page
+	 */
 	private void showAdminHomePage(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, SQLException, ParseException {
 
@@ -338,7 +377,10 @@ public class ControllerServlet extends HttpServlet {
 		}
 
 	}
-
+	
+	/**
+	 * Request handler method to handle displaying the update user password page
+	 */
 	private void showUpdateUserPasswordForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, SQLException, ParseException {
 
@@ -360,7 +402,10 @@ public class ControllerServlet extends HttpServlet {
 		}
 
 	}
-
+	
+	/**
+	 * Request handler method to handle displaying the list of all flights for a customer
+	 */
 	private void listFlightsCustomer(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException, ParseException {
 		List<Flight> listFlight = flightDao.listAllFlights();
@@ -368,7 +413,10 @@ public class ControllerServlet extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("customer-list-flights.jsp");
 		dispatcher.forward(request, response);
 	}
-
+	
+	/**
+	 * Request handler method to handle displaying the list of all flights for a admin user
+	 */
 	private void listFlightsAdmin(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException, ParseException {
 
@@ -389,7 +437,10 @@ public class ControllerServlet extends HttpServlet {
 		}
 
 	}
-
+	
+	/**
+	 * Request handler method to handle displaying the master list of airlines providing available flights for an admin user
+	 */
 	private void displayMasterListofAirlinesAdmin(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException, ParseException {
 		
@@ -416,7 +467,10 @@ public class ControllerServlet extends HttpServlet {
 		}		
 		
 	}
-
+	
+	/**
+	 * Request handler method to handle displaying the master list of airports used in available flights for an admin user
+	 */
 	private void displayMasterListofAirportsAdmin(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException, ParseException {
 				
@@ -444,7 +498,10 @@ public class ControllerServlet extends HttpServlet {
 		}
 			
 	}
-
+	
+	/**
+	 * Request handler method to handle displaying an add flight page for an admin user
+	 */
 	private void showNewForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 				
@@ -463,7 +520,10 @@ public class ControllerServlet extends HttpServlet {
 		}
 				
 	}
-
+	
+	/**
+	 * Request handler method to handle displaying an edit flight page for an admin user
+	 */
 	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, ServletException, IOException {
 		
@@ -485,7 +545,10 @@ public class ControllerServlet extends HttpServlet {
 		}
 	
 	}
-
+	
+	/**
+	 * Request handler method to handle adding a flight for an admin user
+	 */
 	private void insertFlight(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ParseException, ServletException {
 		
@@ -527,7 +590,10 @@ public class ControllerServlet extends HttpServlet {
 		}
 			
 	}
-
+	
+	/**
+	 * Request handler method to handle updating a flight for an admin user
+	 */
 	private void updateFlight(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ParseException, ServletException {
 				
@@ -572,7 +638,10 @@ public class ControllerServlet extends HttpServlet {
 		}
 			
 	}
-
+	
+	/**
+	 * Request handler method to handle updating the password for an admin user
+	 */
 	private void updateUserPassword(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ParseException, ServletException {
 	
@@ -608,7 +677,10 @@ public class ControllerServlet extends HttpServlet {
 		}
 					
 	}
-
+	
+	/**
+	 * Request handler method to handle deleting a flight for an admin user
+	 */
 	private void deleteFlight(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException, ParseException {
 		

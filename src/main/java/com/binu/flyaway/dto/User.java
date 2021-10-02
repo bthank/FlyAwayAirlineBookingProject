@@ -1,10 +1,8 @@
 package com.binu.flyaway.dto;
 
+
 /**
- * User.java
- * This is a model class that represents a user entity
- *  
- *
+ * Class representing a user data transfer object between java and the database
  */
 public class User {
 	

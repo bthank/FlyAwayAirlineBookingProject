@@ -1,5 +1,8 @@
 package com.binu.flyaway.dto;
 
+/**
+ * Class representing a booking data transfer object between java and the database
+ */
 public class Booking {
 	
 	private Integer bookingId;
@@ -7,7 +10,7 @@ public class Booking {
 	private Integer customerId;
 	private Integer flightId;
 	private Integer paymentId;
-	
+
 	public Booking() {
 	 
 	}

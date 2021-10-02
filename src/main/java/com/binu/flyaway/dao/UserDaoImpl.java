@@ -23,7 +23,16 @@ public class UserDaoImpl implements UserDao {
     private String jdbcUsername;
     private String jdbcPassword;
     private Connection jdbcConnection;
-	
+    
+    
+    
+	/**
+	 * Constructor that sets JDBC parameters
+	 * 
+	 * @param jdbcURL
+	 * @param jdbcUsername
+	 * @param jdbcPassword
+	 */			
 	public UserDaoImpl(String jdbcURL, String jdbcUsername, String jdbcPassword) {
 		super();
 		this.jdbcURL = jdbcURL;
@@ -37,7 +46,10 @@ public class UserDaoImpl implements UserDao {
         
 
 	}
-
+	
+	/**
+	 * handles connecting to the database via JDBC
+	 */
 	@Override
 	public void connect() throws SQLException {
         if (jdbcConnection == null || jdbcConnection.isClosed()) {
@@ -52,6 +64,9 @@ public class UserDaoImpl implements UserDao {
 		
 	}
 
+	/**
+	 * handles disconnecting from the database via JDBC
+	 */
 	@Override
 	public void disconnect() throws SQLException {
         if (jdbcConnection != null && !jdbcConnection.isClosed()) {
@@ -61,6 +76,9 @@ public class UserDaoImpl implements UserDao {
 	}
 
 
+	/**
+	 * handles finding a user in the user database table that matches the user's login information
+	 */
 	@Override
 	public boolean validateAdminUser(User user) throws SQLException {
 		
@@ -81,6 +99,9 @@ public class UserDaoImpl implements UserDao {
 	}
 
 
+	/**
+	 * handles finding a user record by user name in the user database table using JDBC prepared statement
+	 */
 	@Override
 	public User findUserByUsername(String username) throws SQLException {
         User user = null;
@@ -107,6 +128,9 @@ public class UserDaoImpl implements UserDao {
         return user;
 	}
 
+	/**
+	 * handles finding a user record by user name and password in the user database table using JDBC prepared statement
+	 */
 	@Override
 	public User findUser(String username, String password) throws SQLException {
         User user = null;
@@ -134,6 +158,9 @@ public class UserDaoImpl implements UserDao {
         return user;
 	}
 
+	/**
+	 * handles updating a password in a user record in the user database table using JDBC prepared statement
+	 */
 	@Override
 	public boolean updateUserPassword(User user) throws SQLException {
 		 

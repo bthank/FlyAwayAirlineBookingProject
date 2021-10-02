@@ -21,14 +21,23 @@ public class CustomerDaoImpl implements CustomerDao {
     private Connection jdbcConnection;
 	
     
-	
+	/**
+	 * Constructor that sets JDBC parameters
+	 * 
+	 * @param jdbcURL
+	 * @param jdbcUsername
+	 * @param jdbcPassword
+	 */	
 	public CustomerDaoImpl(String jdbcURL, String jdbcUsername, String jdbcPassword) {
 		super();
 		this.jdbcURL = jdbcURL;
 		this.jdbcUsername = jdbcUsername;
 		this.jdbcPassword = jdbcPassword;
 	}
-
+	
+	/**
+	 * handles connecting to the database via JDBC
+	 */
 	@Override
 	public void connect() throws SQLException {
         if (jdbcConnection == null || jdbcConnection.isClosed()) {
@@ -43,6 +52,9 @@ public class CustomerDaoImpl implements CustomerDao {
 		
 	}
 
+	/**
+	 * handles disconnecting from the database via JDBC
+	 */
 	@Override
 	public void disconnect() throws SQLException {
         if (jdbcConnection != null && !jdbcConnection.isClosed()) {
@@ -51,6 +63,9 @@ public class CustomerDaoImpl implements CustomerDao {
 		
 	}
 
+	/**
+	 * handles adding a customer record to the customer database table using JDBC prepared statement
+	 */
 	@Override
 	public boolean addCustomer(Customer customer) throws SQLException {
 		

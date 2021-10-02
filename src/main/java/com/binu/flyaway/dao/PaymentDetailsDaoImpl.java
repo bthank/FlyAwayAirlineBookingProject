@@ -20,14 +20,24 @@ public class PaymentDetailsDaoImpl implements PaymentDetailsDao {
     private Connection jdbcConnection;
 	
     
-	
+    
+	/**
+	 * Constructor that sets JDBC parameters
+	 * 
+	 * @param jdbcURL
+	 * @param jdbcUsername
+	 * @param jdbcPassword
+	 */		
 	public PaymentDetailsDaoImpl(String jdbcURL, String jdbcUsername, String jdbcPassword) {
 		super();
 		this.jdbcURL = jdbcURL;
 		this.jdbcUsername = jdbcUsername;
 		this.jdbcPassword = jdbcPassword;
 	}
-
+	
+	/**
+	 * handles connecting to the database via JDBC
+	 */
 	@Override
 	public void connect() throws SQLException {
         if (jdbcConnection == null || jdbcConnection.isClosed()) {
@@ -42,6 +52,9 @@ public class PaymentDetailsDaoImpl implements PaymentDetailsDao {
 		
 	}
 
+	/**
+	 * handles disconnecting from the database via JDBC
+	 */
 	@Override
 	public void disconnect() throws SQLException {
         if (jdbcConnection != null && !jdbcConnection.isClosed()) {
@@ -50,6 +63,9 @@ public class PaymentDetailsDaoImpl implements PaymentDetailsDao {
 		
 	}
 
+	/**
+	 * handles adding a payment details record to the payment_details database table using JDBC prepared statement
+	 */
 	@Override
 	public boolean addPaymentDetails(PaymentDetails paymentDetails) throws SQLException {
 		

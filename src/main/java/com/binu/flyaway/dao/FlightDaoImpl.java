@@ -27,14 +27,24 @@ public class FlightDaoImpl implements FlightDao {
     private Connection jdbcConnection;
 	
     
-	
-	public FlightDaoImpl(String jdbcURL, String jdbcUsername, String jdbcPassword) {
+    
+	/**
+	 * Constructor that sets JDBC parameters
+	 * 
+	 * @param jdbcURL
+	 * @param jdbcUsername
+	 * @param jdbcPassword
+	 */	
+    public FlightDaoImpl(String jdbcURL, String jdbcUsername, String jdbcPassword) {
 		super();
 		this.jdbcURL = jdbcURL;
 		this.jdbcUsername = jdbcUsername;
 		this.jdbcPassword = jdbcPassword;
 	}
-
+	
+	/**
+	 * handles connecting to the database via JDBC
+	 */
 	@Override
 	public void connect() throws SQLException {
         if (jdbcConnection == null || jdbcConnection.isClosed()) {
@@ -49,6 +59,9 @@ public class FlightDaoImpl implements FlightDao {
 		
 	}
 
+	/**
+	 * handles disconnecting from the database via JDBC
+	 */
 	@Override
 	public void disconnect() throws SQLException {
         if (jdbcConnection != null && !jdbcConnection.isClosed()) {
@@ -57,14 +70,16 @@ public class FlightDaoImpl implements FlightDao {
 		
 	}
 
+	/**
+	 * handles adding a flight record to the flight database table using JDBC prepared statement
+	 */
 	@Override
 	public boolean addFlight(Flight flight) throws SQLException {
         String sql = "INSERT INTO flight (source_airport, dest_airport, departure_date, fare, available_seats, airline_name) VALUES (?, ?, ?, ?, ?, ?)";
         connect();
         
         PreparedStatement statement = jdbcConnection.prepareStatement(sql);
-        Flight.setMaxId(Flight.getMaxId() + 1);
-     //   statement.setInt(1, Flight.getMaxId());
+ 
         statement.setString(1, flight.getSourceAirport().toUpperCase());
         statement.setString(2, flight.getDestinationAirport().toUpperCase());
         
@@ -82,6 +97,9 @@ public class FlightDaoImpl implements FlightDao {
 
 	}
 
+	/**
+	 * handles returning all flight records in the flight database table using JDBC statement
+	 */
 	@Override
 	public List<Flight> listAllFlights() throws SQLException, ParseException {
         List<Flight> listFlights = new ArrayList<>();
@@ -126,6 +144,9 @@ public class FlightDaoImpl implements FlightDao {
         return listFlights;
 	}
 
+	/**
+	 * handles deleting a flight from the flight database table using JDBC statement
+	 */
 	@Override
 	public boolean deleteFlight(Flight flight) throws SQLException {
         String sql = "DELETE FROM flight where id = ?";
@@ -141,6 +162,9 @@ public class FlightDaoImpl implements FlightDao {
         return rowDeleted;     
 	}
 
+	/**
+	 * handles updating a flight record in the flight database table using JDBC statement
+	 */
 	@Override
 	public boolean updateFlight(Flight flight) throws SQLException {
         String sql = "UPDATE flight SET source_airport = ?, dest_airport = ?, departure_date = ?";
@@ -163,6 +187,9 @@ public class FlightDaoImpl implements FlightDao {
         return rowUpdated;     
 	}
 
+	/**
+	 * handles returning all flight records in the flight database table matching a user's search criteria using JDBC statement
+	 */
 	@Override
 	public List<Flight> findFlights(TravelSearchDetail travelSearchDetail) throws SQLException {
         List<Flight> listFlights = new ArrayList<>();
@@ -207,10 +234,11 @@ public class FlightDaoImpl implements FlightDao {
         System.out.println("F99: In FlightDaoImpl listFlights= " + listFlights);
          
         return listFlights;
-	}
+	}	
 
-	
-
+	/**
+	 * handles returning a flight record in the flight database table using JDBC statement
+	 */
 	@Override
 	public Flight getFlight(Integer id) throws SQLException {
         Flight flight = null;

@@ -20,7 +20,13 @@ public class BookingDaoImpl implements BookingDao {
     private Connection jdbcConnection;
 	
     
-	
+	/**
+	 * Constructor that sets JDBC parameters
+	 * 
+	 * @param jdbcURL
+	 * @param jdbcUsername
+	 * @param jdbcPassword
+	 */
 	public BookingDaoImpl(String jdbcURL, String jdbcUsername, String jdbcPassword) {
 		super();
 		this.jdbcURL = jdbcURL;
@@ -28,6 +34,9 @@ public class BookingDaoImpl implements BookingDao {
 		this.jdbcPassword = jdbcPassword;
 	}
 
+	/**
+	 * handles connecting to the database via JDBC
+	 */
 	@Override
 	public void connect() throws SQLException {
         if (jdbcConnection == null || jdbcConnection.isClosed()) {
@@ -42,6 +51,9 @@ public class BookingDaoImpl implements BookingDao {
 		
 	}
 
+	/**
+	 * handles disconnecting from the database via JDBC
+	 */
 	@Override
 	public void disconnect() throws SQLException {
         if (jdbcConnection != null && !jdbcConnection.isClosed()) {
@@ -50,6 +62,9 @@ public class BookingDaoImpl implements BookingDao {
 		
 	}
 
+	/**
+	 * handles adding a booking record to the booking database table using JDBC prepared statement
+	 */
 	@Override
 	public boolean addBooking(Booking booking) throws SQLException {
 		

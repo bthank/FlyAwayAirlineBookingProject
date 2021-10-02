@@ -29,8 +29,6 @@
 		<a href="/FlyAwayAirlineBookingProject/showUpdateUserPasswordForm"><h5>Update Password</h5></a> <br/>
 		
 		<a href="/FlyAwayAirlineBookingProject/new"><h5>Add Flight</h5></a> 
-		<a href="/FlyAwayAirlineBookingProject/edit"><h5>Update Flight</h5></a> 
-		<a href="/FlyAwayAirlineBookingProject/delete"><h5>Delete Flight</h5></a> 
 		<a href="/FlyAwayAirlineBookingProject/listAllFlightsAdmin"><h5>List All Flights</h5></a> 			
 		<a href="/FlyAwayAirlineBookingProject/displayMasterListofAirlinesAdmin"><h5>Master List of Airlines</h5></a> 				
 		<a href="/FlyAwayAirlineBookingProject/displayMasterListofAirportsAdmin"><h5>Master List of Airports</h5></a> 				

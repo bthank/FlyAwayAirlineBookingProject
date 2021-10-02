@@ -2,11 +2,9 @@ package com.binu.flyaway.dto;
 
 import java.util.Date;
 
+
 /**
- * Flight.java
- * This is a model class that represents a flight entity
- *  
- *
+ * Class representing a flight data transfer object between java and the database
  */
 public class Flight {
 	
@@ -18,9 +16,7 @@ public class Flight {
 	private Double fare;
 	private Integer numberAvailableSeats;
 	private String airline;
-	
-	private static Integer maxId = 0;
-	
+ 	
 	public Flight() {
 		 
 	}
@@ -109,14 +105,6 @@ public class Flight {
 
 	public void setAirline(String airline) {
 		this.airline = airline;
-	}
-
-	public static Integer getMaxId() {
-		return maxId;
-	}
-
-	public static void setMaxId(Integer maxId) {
-		Flight.maxId = maxId;
 	}
 
 	@Override

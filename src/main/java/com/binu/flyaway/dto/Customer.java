@@ -1,5 +1,8 @@
 package com.binu.flyaway.dto;
 
+/**
+ * Class representing a customer data transfer object between java and the database
+ */
 public class Customer {
 	
 	private Integer customerId;

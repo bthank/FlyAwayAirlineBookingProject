@@ -1,5 +1,8 @@
 package com.binu.flyaway.dto;
 
+/**
+ * Class representing a payment details data transfer object between java and the database
+ */
 public class PaymentDetails {
 
 	private Integer paymentId;
