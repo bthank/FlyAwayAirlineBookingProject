@@ -23,17 +23,25 @@
 <body>
 	<center>
 		<h1>Fly Away Airline Flight Booking</h1>
+		<h2>Customer Booking</h2>
 		<br />
-		<h2>Admin Login:</h2>
+		<h2>Register:</h2>
 
 		<form
-			action="http://localhost:8080/FlyAwayAirlineBookingProject/validateAdminLogin"
+			action="http://localhost:8080/FlyAwayAirlineBookingProject/addCustomer"
 			method="post">
 			<div class="form-group">
-				Admin Username: <input type="text" name="adminUserName" /> <br /><br />
-				Admin Password: <input type="password" name="adminPwd" /> <br /><br /> 
+				First Name: <input type="text" name="firstName" /> <br />
+				Last Name: <input type="text" name="lastName" /> <br />		
+				Address Line 1: <input type="text" name="addressLine1" /> <br />
+				Address Line 2: <input type="text" name="addressLine2" /> <br />
+				City: <input type="text" name="city" /> <br />
+				State: <input type="text" name="state" /> <br />
+				Zip Code: <input type="text" name="zipCode" /> <br />	
+				Phone No: <input type="text" name="phoneNo" /> <br />			
+				# of Travelers: <input type="number" name="noOfTravelers" /> <br />
 			</div>
-			<input	type="submit" class="btn btn-primary mb-2" value="Login" />
+			<input	type="submit" class="btn btn-primary mb-2" value="Register" />
 		</form>
 	</center>
 </body>

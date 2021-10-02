@@ -5,6 +5,20 @@
 <html>
 <head>
     <title>Fly Away Airline Flight Booking Application</title>
+       
+     <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
+	<style>
+		body {
+			background-color: lightblue;
+		}
+	</style>    
 </head>
 <body>
 	<center>
@@ -13,16 +27,18 @@
 		<br />
 	</center>
     <center>
-        <h3>
+        <h5>
             <a href="/FlyAwayAirlineBookingProject/showAdminHome">Admin Home</a>
             &nbsp;&nbsp;&nbsp;
             <a href="/FlyAwayAirlineBookingProject/new">Add New Flight</a>
              
-        </h3>
+        </h5>
+        <br/><br/>
     </center>
     <div align="center">
-        <table border="1" cellpadding="5">
-            <caption><h2>List of Flights</h2></caption>
+        <caption><h2>List of Flights</h2></caption>
+        <table border="1" cellpadding="5" class="table">
+ 
             <tr>
                 <th>Id</th>
                 <th>Departure Date</th>

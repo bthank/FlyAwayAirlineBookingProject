@@ -7,6 +7,11 @@ import java.util.List;
 import com.binu.flyaway.dto.Flight;
 import com.binu.flyaway.dto.TravelSearchDetail;
 
+/**
+ * FlightDao.java
+ * This is the interface representing the available data access methods for the Flight class
+ *  
+ */
 public interface FlightDao {
 
 	void connect() throws SQLException;

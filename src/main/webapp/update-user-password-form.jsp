@@ -5,6 +5,20 @@
 <html>
 <head>
     <title>Fly Away Airline Flight Booking Application</title>
+       
+     <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
+	<style>
+		body {
+			background-color: lightblue;
+		}
+	</style>    
 </head>
 <body>
 	<center>
@@ -14,22 +28,25 @@
 		<br />
 	</center>
     <center>
-        <h3>
+        <h6>
             <a href="/FlyAwayAirlineBookingProject/showAdminHome">Admin Home</a>
             &nbsp;&nbsp;&nbsp;
             <a href="/FlyAwayAirlineBookingProject/new">Add New Flight</a>
             &nbsp;&nbsp;&nbsp;
             <a href="/FlyAwayAirlineBookingProject/listAllFlightsAdmin">List All Flights</a>
-             
-        </h3>
+            <br/><br/><br/> 
+        </h6>
     </center>
     <div align="center">
  
         <form action="updateUserPassword" method="post">
-	        <table border="1" cellpadding="5">
 	            <caption>
 	                <h2>Update Password</h2>
 	            </caption>
+	            <br/><br/>        	
+	        <table border="1" cellpadding="5">
+
+	            <div class="form-group">
                 <c:if test="${user != null}">
                     <input type="hidden" name="username" value="<c:out value='${user.username}' />" />
                 </c:if>           
@@ -39,9 +56,10 @@
 	            		New Password: <input type="password" name="adminPwd" />  
 	            	</td>
 	            </tr>
+	            </div>
 	            <tr>
 	                <td colspan="2" align="center">
-	                    <input type="submit" value="Update" />
+	                    <input type="submit" class="btn btn-primary mb-2" value="Update" />
 	                </td>
 	            </tr>
 	        </table>

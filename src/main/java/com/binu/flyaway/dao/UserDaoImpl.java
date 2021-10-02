@@ -12,6 +12,11 @@ import com.binu.flyaway.dto.Flight;
 import com.binu.flyaway.dto.TravelSearchDetail;
 import com.binu.flyaway.dto.User;
 
+/**
+ * UserDaoImpl.java
+ * This is the class containing CRUD implementations of the data access methods listed in the UserDao interface
+ *  
+ */
 public class UserDaoImpl implements UserDao {
 
     private String jdbcURL;

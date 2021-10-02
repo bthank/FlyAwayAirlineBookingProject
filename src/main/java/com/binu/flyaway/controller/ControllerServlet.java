@@ -15,11 +15,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.binu.flyaway.dao.BookingDao;
+import com.binu.flyaway.dao.BookingDaoImpl;
+import com.binu.flyaway.dao.CustomerDao;
+import com.binu.flyaway.dao.CustomerDaoImpl;
 import com.binu.flyaway.dao.FlightDao;
 import com.binu.flyaway.dao.FlightDaoImpl;
+import com.binu.flyaway.dao.PaymentDetailsDao;
+import com.binu.flyaway.dao.PaymentDetailsDaoImpl;
 import com.binu.flyaway.dao.UserDao;
 import com.binu.flyaway.dao.UserDaoImpl;
+import com.binu.flyaway.dto.Booking;
+import com.binu.flyaway.dto.Customer;
 import com.binu.flyaway.dto.Flight;
+import com.binu.flyaway.dto.PaymentDetails;
 import com.binu.flyaway.dto.TravelSearchDetail;
 import com.binu.flyaway.dto.User;
 
@@ -35,7 +44,11 @@ public class ControllerServlet extends HttpServlet {
 
 	 
     private UserDao userDao;
-    private FlightDao flightDao;   
+    private FlightDao flightDao; 
+    private CustomerDao customerDao;
+    private PaymentDetailsDao paymentDetailsDao;
+    private BookingDao bookingDao;  
+    
     
     public void init() {
         String jdbcURL = getServletContext().getInitParameter("jdbcURL");
@@ -48,6 +61,9 @@ public class ControllerServlet extends HttpServlet {
         
         userDao   = new UserDaoImpl(jdbcURL, jdbcUsername, jdbcPassword);
         flightDao = new FlightDaoImpl(jdbcURL, jdbcUsername, jdbcPassword); 
+        customerDao = new CustomerDaoImpl(jdbcURL, jdbcUsername, jdbcPassword); 
+        paymentDetailsDao = new PaymentDetailsDaoImpl(jdbcURL, jdbcUsername, jdbcPassword); 
+        bookingDao = new BookingDaoImpl(jdbcURL, jdbcUsername, jdbcPassword); 
     }
  
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -69,7 +85,21 @@ public class ControllerServlet extends HttpServlet {
             	break;
             case "/findFlights":
               	findFlights(request,response);
-            	break;        	
+            	break;     
+            case "/displayBookingCustomerForm":
+            	displayBookingCustomerForm(request, response);
+                break;
+            case "/addCustomer":
+            	addCustomer(request, response);
+                break;
+         
+            case "/addPaymentDetails":
+            	addPaymentDetails(request, response);
+                break;    
+            case "/bookFlight":
+            	bookFlight(request, response);
+                break;            	
+
             case "/adminLogin":
             	showAdminLoginForm(request,response);
             	break;
@@ -106,8 +136,7 @@ public class ControllerServlet extends HttpServlet {
                 break;
             case "/update":
                 updateFlight(request, response);
-                break;
-                
+                break;                
             case "/displayMasterListofAirlinesAdmin":
             	displayMasterListofAirlinesAdmin(request,response);
             	break; 
@@ -166,8 +195,93 @@ public class ControllerServlet extends HttpServlet {
         dispatcher.forward(request, response);        
         
     }
- 
+  
+    private void displayBookingCustomerForm(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException, ParseException {
+        int flightId = Integer.parseInt(request.getParameter("id"));
+    	request.setAttribute("flightId", flightId);
+    	System.out.println("In displayBookingCustomerForm   flightId= " + flightId);
+    	RequestDispatcher dispatcher = request.getRequestDispatcher("booking-customer-form.jsp");
+    	dispatcher.forward(request, response);
+    } 
 
+    private void addCustomer(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ParseException, ServletException {
+    	
+    	
+    	String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String addressLine1 = request.getParameter("addressLine1");
+    	String addressLine2 = request.getParameter("addressLine2");
+        String city = request.getParameter("city");
+        String state = request.getParameter("state");
+    	String zipCode = request.getParameter("zipCode");
+        String phoneNo = request.getParameter("phoneNo");
+        Integer noOfTravelers = Integer.parseInt(request.getParameter("noOfTravelers")); 
+        
+        System.out.println("In addCustomer   firstName=" + firstName + "   noOfTravelers=" + noOfTravelers);
+         
+        Customer newCustomer = new Customer(firstName, lastName, addressLine1, addressLine2, 
+        									city, state, zipCode, phoneNo, noOfTravelers);
+        customerDao.addCustomer(newCustomer);
+        
+    	RequestDispatcher dispatcher = request.getRequestDispatcher("payment-details-form.jsp");
+    	dispatcher.forward(request, response);
+
+    }
+    
+
+    private void addPaymentDetails(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ParseException, ServletException {
+
+    	Integer paymentType = Integer.parseInt(request.getParameter("paymentType"));
+        String cardNo = request.getParameter("cardNo");
+        Integer cardExpirationMonth = Integer.parseInt(request.getParameter("cardExpirationMonth"));
+        Integer cardExpirationYear = Integer.parseInt(request.getParameter("cardExpirationYear"));
+        Integer cardCvvCode = Integer.parseInt(request.getParameter("cardCvvCode"));
+        
+    	String billingFirstName = request.getParameter("billingFirstName");
+        String billingLastName = request.getParameter("billingLastName");
+        String billingAddressLine1 = request.getParameter("billingAddressLine1");
+    	String billingAddressLine2 = request.getParameter("billingAddressLine2");
+        String billingCity = request.getParameter("billingCity");
+        String billingState = request.getParameter("billingState");
+    	String billingZipCode = request.getParameter("billingZipCode");
+        String billingPhoneNo = request.getParameter("billingPhoneNo");
+        
+        System.out.println("In addPaymentDetails   paymentType=" + paymentType + "   billingFirstName=" + billingFirstName);
+
+        PaymentDetails newPaymentDetails = new PaymentDetails(paymentType, cardNo, cardExpirationMonth, cardExpirationYear,
+    			cardCvvCode, billingFirstName, billingLastName, billingAddressLine1,
+    			billingAddressLine2, billingCity, billingState, billingZipCode,
+    			billingPhoneNo );
+        System.out.println("newPaymentDetails= " + newPaymentDetails);
+        paymentDetailsDao.addPaymentDetails(newPaymentDetails);
+        
+    	RequestDispatcher dispatcher = request.getRequestDispatcher("confirm-booking-details-form.jsp");
+    	dispatcher.forward(request, response);
+
+    }
+    
+
+    private void bookFlight(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ParseException, ServletException {
+
+		 HttpSession session = request.getSession();
+		 Integer customerId = (Integer)session.getAttribute("customerId");
+		 Integer flightId = (Integer)session.getAttribute("flightId");
+		 Integer paymentId = (Integer)session.getAttribute("paymentId");
+
+         System.out.println("In bookFlight   customerId=" + customerId + "   flightId=" + flightId + "    paymentId=" + paymentId);
+         
+         Booking newBooking = new Booking(customerId, flightId, paymentId);
+         bookingDao.addBooking(newBooking);
+        
+         RequestDispatcher dispatcher = request.getRequestDispatcher("booking-success-page.jsp");
+         dispatcher.forward(request, response);
+
+    }
+        
     
     private void showAdminLoginForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ParseException {
@@ -191,11 +305,13 @@ public class ControllerServlet extends HttpServlet {
 		 if (isValidAdminUser) {
 			 // send the user to the admin-portal.jsp page
 			 HttpSession session = request.getSession();
+			 session.setAttribute("userType", "ADMIN");
 			 session.setAttribute("adminUserName", user.getUsername());
 
 			 response.sendRedirect("admin-portal.jsp");
 		 } else {
 			 HttpSession session = request.getSession();
+			 session.setAttribute("userType", "");
 			 session.setAttribute("adminUserName", "");
 			 // send the user to the admin-login-error.jsp page
 			 response.sendRedirect("admin-login-error.jsp");
@@ -206,6 +322,15 @@ public class ControllerServlet extends HttpServlet {
     
     private void showAdminHomePage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ParseException {
+    	
+		 HttpSession session = request.getSession();
+		 String userType = (String) session.getAttribute("userType");
+		 if (userType != "ADMIN") {
+			 // send the user to the error.jsp page
+			 response.sendRedirect("error.jsp");
+		 }
+
+    	
           RequestDispatcher dispatcher = request.getRequestDispatcher("admin-portal.jsp");
           dispatcher.forward(request, response);
     }
@@ -345,7 +470,6 @@ public class ControllerServlet extends HttpServlet {
         
         userDao.updateUserPassword(user);
         
-
         showAdminLoginForm(request,response);
     }    
     

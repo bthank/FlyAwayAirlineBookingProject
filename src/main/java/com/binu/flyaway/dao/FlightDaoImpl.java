@@ -14,13 +14,10 @@ import java.util.List;
 import com.binu.flyaway.dto.Flight;
 import com.binu.flyaway.dto.TravelSearchDetail;
 
-
 /**
  * FlightDaoImpl.java
- * This DAO class provides CRUD database operations for the flight table
- * in the database.
- * 
- *
+ * This is the class containing CRUD implementations of the data access methods listed in theFlightDao interface
+ *  
  */
 public class FlightDaoImpl implements FlightDao {
 
@@ -151,14 +148,12 @@ public class FlightDaoImpl implements FlightDao {
         connect();
          
         PreparedStatement statement = jdbcConnection.prepareStatement(sql);
-        statement.setString(1, flight.getSourceAirport());
-        statement.setString(2, flight.getDestinationAirport());
+        statement.setString(1, flight.getSourceAirport().toUpperCase());
+        statement.setString(2, flight.getDestinationAirport().toUpperCase());
                 
         java.util.Date myDate = new java.util.Date(flight.getDepartureDate().toString());
         java.sql.Date sqlDate = new java.sql.Date(myDate.getTime());
-        
-        
-        
+          
         statement.setDate(3, sqlDate);
         statement.setInt(4, flight.getId());
          
@@ -182,8 +177,8 @@ public class FlightDaoImpl implements FlightDao {
 
         
         PreparedStatement statement = jdbcConnection.prepareStatement(sql);
-        statement.setString(1, travelSearchDetail.getSourceAirport());
-        statement.setString(2, travelSearchDetail.getDestinationAirport());
+        statement.setString(1, travelSearchDetail.getSourceAirport().toUpperCase());
+        statement.setString(2, travelSearchDetail.getDestinationAirport().toUpperCase());
         statement.setDate(3, travelSearchDetail.getDepartureDate());
    //     statement.setInt(4, travelSearchDetail.getNumberTraveling());
         
@@ -197,10 +192,14 @@ public class FlightDaoImpl implements FlightDao {
             Double fare = resultSet.getDouble("fare");
             Integer availableSeats = resultSet.getInt("available_seats");
             String airline = resultSet.getString("airline_name");
-             
-            Flight flight = new Flight(id, sourceAirport, destinationAirport, departureDate,fare,availableSeats,airline);
-            listFlights.add(flight);
-            System.out.println("F91: In FlightDaoImpl flight= " + flight);
+            
+            // only display flights with enough seats to accommodate the customers number of travelers
+            if (availableSeats >= travelSearchDetail.getNumberTraveling()) {
+                Flight flight = new Flight(id, sourceAirport, destinationAirport, departureDate,fare,availableSeats,airline);
+                listFlights.add(flight);            
+                System.out.println("F91: In FlightDaoImpl flight= " + flight);
+            }
+            
         }
          
         resultSet.close();
