@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" isErrorPage="true" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="ISO-8859-1">
 <title>Fly Away Airline Flight Booking Application</title>
        
      <!-- Required meta tags -->
@@ -23,15 +23,17 @@
 <body>
 	<center>
 		<h1>Fly Away Airline Flight Booking</h1>
-		<br /><br /><br />
-
+		<h2>Customer Input Error Page</h2>
 	</center>
-	<h4>ERROR - You did not provide correct admin login credentials</h3>
-	<br />
-	<br />
-	<br />
-	<hr />
+	<br /><br /><br /><br />
+    <center>
+        <h4>Invalid input encountered. Exiting.<br/> </h4>
+    </center>
+    <br />
+    <hr>
+    <br /><br />
 	<a href="/FlyAwayAirlineBookingProject/home"><h6>Home</h6></a>
-	<a href="/FlyAwayAirlineBookingProject/adminLogin"><h6>Admin Login Page</h6></a>
+
+    
 </body>
 </html>

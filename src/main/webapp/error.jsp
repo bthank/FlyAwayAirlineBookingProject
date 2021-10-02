@@ -27,10 +27,11 @@
 		<h2>Error Page</h2>
 	</center>
     <center>
-        <h3><%=exception.getMessage() %><br/> </h3>
+        <h4>ERROR - An unexpected error occurred. Exiting.<br/> </h4>
     </center>
     <br />
-
-    
+	<hr>
+	<br /><br />
+	<a href="/FlyAwayAirlineBookingProject/home"><h4>Home</h4></a>    
 </body>
 </html>

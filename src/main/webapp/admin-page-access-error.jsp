@@ -26,12 +26,11 @@
 		<br /><br /><br />
 
 	</center>
-	<h4>ERROR - You did not provide correct admin login credentials</h3>
+	<h4>ERROR - You are attempting to access a restricted admin page</h3>
 	<br />
 	<br />
 	<br />
 	<hr />
 	<a href="/FlyAwayAirlineBookingProject/home"><h6>Home</h6></a>
-	<a href="/FlyAwayAirlineBookingProject/adminLogin"><h6>Admin Login Page</h6></a>
 </body>
 </html>

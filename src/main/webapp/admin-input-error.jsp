@@ -23,15 +23,16 @@
 <body>
 	<center>
 		<h1>Fly Away Airline Flight Booking</h1>
+		<h2>Admin Portal</h2>
 		<br /><br /><br />
 
 	</center>
-	<h4>ERROR - You did not provide correct admin login credentials</h3>
+	<h4>ERROR - An invalid input was encountered.  Exiting.</h4>
 	<br />
 	<br />
 	<br />
 	<hr />
-	<a href="/FlyAwayAirlineBookingProject/home"><h6>Home</h6></a>
-	<a href="/FlyAwayAirlineBookingProject/adminLogin"><h6>Admin Login Page</h6></a>
+	<a href="/FlyAwayAirlineBookingProject/home"><h4>Home</h4></a>
+	<a href="/FlyAwayAirlineBookingProject/adminLogin"><h4>Admin Login Page</h4></a>
 </body>
 </html>
