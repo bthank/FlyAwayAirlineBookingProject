@@ -225,8 +225,11 @@ public class ControllerServlet extends HttpServlet {
 	private void displayBookingCustomerForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, SQLException, ParseException {
 		int flightId = Integer.parseInt(request.getParameter("id"));
-		request.setAttribute("flightId", flightId);
-		System.out.println("In displayBookingCustomerForm   flightId= " + flightId);
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("flightId", flightId);
+	 
+		System.out.println("In ControllerServlet method  displayBookingCustomerForm   flightId= " + flightId);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("booking-customer-form.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -252,7 +255,12 @@ public class ControllerServlet extends HttpServlet {
 		Customer newCustomer = new Customer(firstName, lastName, addressLine1, addressLine2, city, state, zipCode,
 				phoneNo, noOfTravelers);
 		customerDao.addCustomer(newCustomer);
-
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("customer", newCustomer);
+		session.setAttribute("last_inserted_cust_id", newCustomer.getCustomerId());
+		System.out.println("In ControllerServlet  addCustomer method   newCustomer.getCustomerId()=" + newCustomer.getCustomerId());
+		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("payment-details-form.jsp");
 		dispatcher.forward(request, response);
 
@@ -287,6 +295,13 @@ public class ControllerServlet extends HttpServlet {
 				billingAddressLine2, billingCity, billingState, billingZipCode, billingPhoneNo);
 		System.out.println("newPaymentDetails= " + newPaymentDetails);
 		paymentDetailsDao.addPaymentDetails(newPaymentDetails);
+		
+
+		HttpSession session = request.getSession();
+		session.setAttribute("paymentDetail", newPaymentDetails);
+				 
+		session.setAttribute("last_inserted_payment_id", newPaymentDetails.getPaymentId());
+		System.out.println("In ControllerServlet  addPaymentDetails method   newPaymentDetails.getPaymentId()=" + newPaymentDetails.getPaymentId());
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("confirm-booking-details-form.jsp");
 		dispatcher.forward(request, response);
@@ -300,15 +315,22 @@ public class ControllerServlet extends HttpServlet {
 			throws SQLException, IOException, ParseException, ServletException {
 
 		HttpSession session = request.getSession();
-		Integer customerId = (Integer) session.getAttribute("customerId");
+		Integer customerId = (Integer) session.getAttribute("last_inserted_cust_id");
 		Integer flightId = (Integer) session.getAttribute("flightId");
-		Integer paymentId = (Integer) session.getAttribute("paymentId");
+		Integer paymentId = (Integer) session.getAttribute("last_inserted_payment_id");
 
 		System.out.println(
 				"In bookFlight   customerId=" + customerId + "   flightId=" + flightId + "    paymentId=" + paymentId);
 
 		Booking newBooking = new Booking(customerId, flightId, paymentId);
 		bookingDao.addBooking(newBooking);
+		
+
+		session.setAttribute("booking", newBooking);
+				 
+		session.setAttribute("last_inserted_booking_id", newBooking.getBookingId());
+		System.out.println("In ControllerServlet  bookFlight method   newBooking.getBookingId()=" + newBooking.getBookingId());
+
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("booking-success-page.jsp");
 		dispatcher.forward(request, response);

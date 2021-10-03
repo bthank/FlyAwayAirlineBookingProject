@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page session="true" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,7 +37,7 @@
 		<br />
 		
 		<h4>Congratulations! Your flight was booked successfully!</h4>
-		<h4>Your booking id is: ${bookingId}</h4>
+		<h4>Your booking id is: ${sessionScope.last_inserted_booking_id}</h4>
 
 
 	</center>

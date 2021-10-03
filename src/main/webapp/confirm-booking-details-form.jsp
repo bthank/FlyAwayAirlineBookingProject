@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,137 +22,175 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"
 	integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/"
 	crossorigin="anonymous"></script>
-	
-	<style>
-		body {
-			background-color: lightblue;
-		}
-	</style>
+
+<style>
+body {
+	background-color: lightblue;
+}
+</style>
 </head>
 <body>
 	<center>
 		<h1>Fly Away Airline Flight Booking</h1>
 		<h2>Customer Booking</h2>
+		<br /> <br />
+		<h2>Confirm and Submit Booking Details</h2>
 		<br />
 		<br />
-		<h2>Confirm Booking Details</h2>
-		<br/><br/>
-		<h4>Payment Information:</h4>
 
-		<form
-			action="http://localhost:8080/FlyAwayAirlineBookingProject/addPaymentDetails"
-			method="post">
 
-			<div class="form-group row">
-				<label for="paymentType" class="col-sm-2 col-form-label">Payment
-					Type (1=CC,2=Debit):</label>
-				<div class="col-sm-10">
-					<input type="number" name="paymentType" id="paymentType"
-						class="form-control" readonly />
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="cardNo" class="col-sm-2 col-form-label">Card No:</label>
-				<div class="col-sm-10">
-					<input type="number" name="cardNo" id="cardNo" class="form-control" readonly />
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="cardExpirationMonth" class="col-sm-2 col-form-label">Exp
-					Month:</label>
-				<div class="col-sm-10">
-					<input type="number" name="cardExpirationMonth"
-						id="cardExpirationMonth" class="form-control" readonly />
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="cardExpirationYear" class="col-sm-2 col-form-label">Exp
-					Year:</label>
-				<div class="col-sm-10">
-					<input type="number" name="cardExpirationYear"
-						id="cardExpirationYear" class="form-control" readonly />
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="cardCvvCode" class="col-sm-2 col-form-label">CVV
-					Code:</label>
-				<div class="col-sm-10">
-					<input type="number" name="cardCvvCode" id="cardCvvCode"
-						class="form-control" readonly />
-				</div>
-			</div>
 
-			<h4>Billing Address:</h4>
-			
-			<div class="form-group row">
-				<label for="billingFirstName" class="col-sm-2 col-form-label">First
-					Name:</label>
-				<div class="col-sm-10">
-					<input type="text" name="billingFirstName" id="billingFirstName"
-						class="form-control" readonly />
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="billingLastName" class="col-sm-2 col-form-label">Last
-					Name:</label>
-				<div class="col-sm-10">
-					<input type="text" name="billingLastName" id="billingLastName"
-						class="form-control" readonly />
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="billingAddressLine1" class="col-sm-2 col-form-label">Address
-					Line 1:</label>
-				<div class="col-sm-10">
-					<input type="text" name="billingAddressLine1"
-						id="billingAddressLine1" class="form-control" readonly />
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="billingAddressLine2" class="col-sm-2 col-form-label">Address
-					Line 2:</label>
-				<div class="col-sm-10">
-					<input type="text" name="billingAddressLine2"
-						id="billingAddressLine2" class="form-control" readonly />
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="billingCity" class="col-sm-2 col-form-label">City:</label>
-				<div class="col-sm-10">
-					<input type="text" name="billingCity" id="billingCity"
-						class="form-control" readonly />
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="billingState" class="col-sm-2 col-form-label">State:</label>
-				<div class="col-sm-10">
-					<input type="text" name="billingState" id="billingState"
-						class="form-control" readonly />
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="billingZipCode" class="col-sm-2 col-form-label">Zip
-					Code:</label>
-				<div class="col-sm-10">
-					<input type="text" name="billingZipCode" id="billingZipCode"
-						class="form-control" readonly />
-				</div>
-			</div>
-			<div class="form-group row">
-				<label for="billingPhoneNo" class="col-sm-2 col-form-label">Phone
-					No:</label>
-				<div class="col-sm-10">
-					<input type="text" name="billingPhoneNo" id="billingPhoneNo"
-						class="form-control" readonly />
-				</div>
-			</div>
 
-			<div class="form-group row">
-				<div class="col-sm-10">
-					<button type="submit" class="btn btn-primary">Submit
-						Payment Info</button>
-				</div>
-			</div>
+
+
+
+		<form action="bookFlight" method="post">
+
+			<h4>Customer Information</h4>
+			<table border="1" cellpadding="5">
+				<tr>
+					<th>First Name:</th>
+					<td><input type="text" name="firstName" size="20"
+						value="<c:out value='${customer.firstName}' />" readonly /></td>
+				</tr>
+
+				<tr>
+					<th>Last Name:</th>
+					<td><input type="text" name="lastName" size="20"
+						value="<c:out value='${customer.lastName}' />" readonly /></td>
+				</tr>
+
+				<tr>
+					<th>Address Line 1:</th>
+					<td><input type="text" name="addressLine1" size="20"
+						value="<c:out value='${customer.addressLine1}' />" readonly /></td>
+				</tr>
+				<tr>
+					<th>Address Line 2:</th>
+					<td><input type="text" name="addressLine2" size="20"
+						value="<c:out value='${customer.addressLine2}' />" readonly /></td>
+				</tr>
+				<tr>
+					<th>City:</th>
+					<td><input type="text" name="city" size="20"
+						value="<c:out value='${customer.city}' />" readonly /></td>
+				</tr>
+				<tr>
+					<th>State:</th>
+					<td><input type="text" name="state" size="20"
+						value="<c:out value='${customer.state}' />" readonly /></td>
+				</tr>
+				<tr>
+					<th>Zip Code:</th>
+					<td><input type="text" name="zipCode" size="5"
+						value="<c:out value='${customer.zipCode}' />" readonly /></td>
+				</tr>
+				<tr>
+					<th>Phone No:</th>
+					<td><input type="text" name="phoneNo" size="10"
+						value="<c:out value='${customer.phoneNo}' />" readonly /></td>
+				</tr>
+				<tr>
+					<th># of Travelers:</th>
+					<td><input type="number" name="noOfTravelers" size="5"
+						value="<c:out value='${customer.noOfTravelers}' />" readonly /></td>
+				</tr>
+			</table>
+
+			<br />
+			<br />
+			<h4>Payment Information</h4>
+			<table border="1" cellpadding="5">
+				<tr>
+					<th>Payment Type (1=CC,2=Debit):</th>
+					<td><input type="number" name="paymentType" size="20"
+						value="<c:out value='${paymentDetail.paymentType}' />" readonly /></td>
+				</tr>
+
+				<tr>
+					<th>Card No:</th>
+					<td><input type="text" name="cardNo" size="20"
+						value="<c:out value='${paymentDetail.cardNo}' />" readonly /></td>
+				</tr>
+
+				<tr>
+					<th>Exp Month:</th>
+					<td><input type="number" name="cardExpirationMonth" size="20"
+						value="<c:out value='${paymentDetail.cardExpirationMonth}' />"
+						readonly /></td>
+				</tr>
+				<tr>
+					<th>Exp Year:</th>
+					<td><input type="number" name="cardExpirationYear" size="20"
+						value="<c:out value='${paymentDetail.cardExpirationYear}' />"
+						readonly /></td>
+				</tr>
+				<tr>
+					<th>CVV Code:</th>
+					<td><input type="text" name="cardCvvCode" size="20"
+						value="<c:out value='${paymentDetail.cardCvvCode}' />" readonly /></td>
+				</tr>
+			</table>
+			<br />
+			<br />
+
+			<h4>Billing Information</h4>
+			<table border="1" cellpadding="5">
+				<tr>
+					<th>First Name:</th>
+					<td><input type="text" name="billingFirstName" size="20"
+						value="<c:out value='${paymentDetail.billingFirstName}' />"
+						readonly /></td>
+				</tr>
+
+				<tr>
+					<th>Last Name:</th>
+					<td><input type="text" name="billingLastName" size="20"
+						value="<c:out value='${paymentDetail.billingLastName}' />"
+						readonly /></td>
+				</tr>
+
+				<tr>
+					<th>Address Line 1:</th>
+					<td><input type="text" name="billingAddressLine1" size="20"
+						value="<c:out value='${paymentDetail.billingAddressLine1}' />"
+						readonly /></td>
+				</tr>
+				<tr>
+					<th>Address Line 2:</th>
+					<td><input type="text" name="billingAddressLine2" size="20"
+						value="<c:out value='${paymentDetail.billingAddressLine1}' />"
+						readonly /></td>
+				</tr>
+				<tr>
+					<th>City:</th>
+					<td><input type="text" name="billingCity" size="20"
+						value="<c:out value='${paymentDetail.billingCity}' />" readonly /></td>
+				</tr>
+				<tr>
+					<th>State:</th>
+					<td><input type="text" name="billingState" size="20"
+						value="<c:out value='${paymentDetail.billingState}' />" readonly /></td>
+				</tr>
+				<tr>
+					<th>Zip Code:</th>
+					<td><input type="text" name="billingZipCode" size="5"
+						value="<c:out value='${paymentDetail.billingZipCode}' />" readonly /></td>
+				</tr>
+				<tr>
+					<th>Phone No:</th>
+					<td><input type="text" name="billingPhoneNo" size="10"
+						value="<c:out value='${paymentDetail.billingPhoneNo}' />" readonly /></td>
+				</tr>
+
+			</table>
+
+
+			<br />
+			<br />
+			<button type="submit" class="btn btn-primary">Submit Booking
+			</button>
+
 
 		</form>
 	</center>

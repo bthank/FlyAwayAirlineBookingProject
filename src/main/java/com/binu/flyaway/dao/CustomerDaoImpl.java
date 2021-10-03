@@ -3,10 +3,11 @@ package com.binu.flyaway.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import com.binu.flyaway.dto.Customer;
-import com.binu.flyaway.dto.Flight;
 
 /**
  * CustomerDaoImpl.java
@@ -72,7 +73,7 @@ public class CustomerDaoImpl implements CustomerDao {
         String sql = "INSERT INTO customer (first_name, last_name, address_line_1, address_line_2, city, state, zip_code, phone_no, no_of_travelers) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         connect();
         
-        PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+        PreparedStatement statement = jdbcConnection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
        
         statement.setString(1, customer.getFirstName());
         statement.setString(2, customer.getLastName());
@@ -87,6 +88,19 @@ public class CustomerDaoImpl implements CustomerDao {
         System.out.println("In AddCustomer()   fields    customer= " + customer);
   
         boolean rowInserted = statement.executeUpdate() > 0;
+        
+        
+        // get the id of the record inserted in the database
+        ResultSet rs = statement.getGeneratedKeys();
+        int last_inserted_id = -1;
+        if(rs.next())
+        {
+            last_inserted_id = rs.getInt(1);
+        }
+        System.out.println("In CustomerDaoImpl addCustomer method   last_inserted_id=" + last_inserted_id);
+        customer.setCustomerId(last_inserted_id);
+        
+        
         statement.close();
         disconnect();
         return rowInserted;		 

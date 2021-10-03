@@ -3,7 +3,9 @@ package com.binu.flyaway.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import com.binu.flyaway.dto.PaymentDetails;
 
@@ -76,7 +78,7 @@ public class PaymentDetailsDaoImpl implements PaymentDetailsDao {
         connect();
         
         System.out.println("A2: In addPaymentDetails");
-        PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+        PreparedStatement statement = jdbcConnection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
         System.out.println("A3: In addPaymentDetails");      
         statement.setInt(1, paymentDetails.getPaymentType());
         statement.setString(2, paymentDetails.getCardNo());
@@ -95,6 +97,19 @@ public class PaymentDetailsDaoImpl implements PaymentDetailsDao {
         System.out.println("A5: In addPaymentDetails");       
         boolean rowInserted = statement.executeUpdate() > 0;
         System.out.println("A6: In addPaymentDetails");
+        
+        
+        // get the id of the record inserted in the database
+        ResultSet rs = statement.getGeneratedKeys();
+        int last_inserted_id = -1;
+        if(rs.next())
+        {
+            last_inserted_id = rs.getInt(1);
+        }
+        System.out.println("In PaymentDetailDaoImpl addPaymentDetails method   last_inserted_id=" + last_inserted_id);
+        paymentDetails.setPaymentId(last_inserted_id);
+        
+    
         statement.close();
         disconnect();
         return rowInserted;		 

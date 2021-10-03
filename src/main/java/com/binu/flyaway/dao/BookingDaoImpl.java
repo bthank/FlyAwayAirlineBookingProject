@@ -3,7 +3,9 @@ package com.binu.flyaway.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import com.binu.flyaway.dto.Booking;
 
@@ -71,13 +73,26 @@ public class BookingDaoImpl implements BookingDao {
         String sql = "INSERT INTO booking (customer_id, flight_id, payment_id) VALUES (?, ?, ?)";
         connect();
         
-        PreparedStatement statement = jdbcConnection.prepareStatement(sql);
+        PreparedStatement statement = jdbcConnection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
        
         statement.setInt(1, booking.getCustomerId());
         statement.setInt(2, booking.getFlightId());
         statement.setInt(3, booking.getPaymentId());
         
         boolean rowInserted = statement.executeUpdate() > 0;
+        
+        
+        // get the id of the record inserted in the database
+        ResultSet rs = statement.getGeneratedKeys();
+        int last_inserted_id = -1;
+        if(rs.next())
+        {
+            last_inserted_id = rs.getInt(1);
+        }
+        System.out.println("In BookingDaoImpl addBooking method   last_inserted_id=" + last_inserted_id);
+        booking.setBookingId(last_inserted_id);
+        
+        
         statement.close();
         disconnect();
         
